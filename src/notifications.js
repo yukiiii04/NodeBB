@@ -77,14 +77,10 @@ Notifications.getMultiple = async function (nids) {
 	if (!Array.isArray(nids) || !nids.length) {
 		return [];
 	}
-
 	const keys = nids.map(nid => `notifications:${nid}`);
 	const notifications = await db.getObjects(keys);
-
 	const userKeys = notifications.map(n => n && n.from);
 	const usersData = await User.getUsersFields(userKeys, ['username', 'userslug', 'picture']);
-
-	console.log('Yuki-Fetching Notifications');
 	notifications.forEach((notification, index) => {
 		if (!notification) {
 			return;
@@ -117,7 +113,6 @@ Notifications.getMultiple = async function (nids) {
 			notification.bodyLong = utils.stripHTMLTags(notification.bodyLong, ['img', 'p', 'a']);
 		}
 	}
-	console.log('Yuki-Successfully sanitized notification body');
 	async function handleUserNotification(notification) {
 		notification.image = notification.user.picture || null;
 		if (notification.user.username === '[[global:guest]]') {
@@ -132,7 +127,6 @@ Notifications.getMultiple = async function (nids) {
 			notification.image = meta.config['brand:logo'] || `${nconf.get('relative_path')}/logo.png`;
 		}
 	}
-	console.log('Yuki-end of notification parsing');
 	return notifications;
 };
 
