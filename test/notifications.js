@@ -422,7 +422,7 @@ describe('Notifications', () => {
 						assert.ifError(err);
 						notifications.get(notification.nid, (err, data) => {
 							assert.ifError(err);
-							assert(!data); 
+							assert(!data);
 							done();
 						});
 					});
